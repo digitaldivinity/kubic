@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 
 
-#define X 800
-#define Y 800
+#define X 1600
+#define Y 900
 #define BORDER 10
 #define STEP 10
 #define MAXPOINTS 100
@@ -159,7 +159,7 @@ void proizv(k_point * p,k_point * d, int n){
 	k_point  f[n-2];
 	int i;
 	for (i=1;i<n-1;i++){
-		f[i-1]=(p[i+1]+p[i-1]-p[i]*2)*6;//f[i]?
+		f[i-1]=(p[i+1]+p[i-1]-p[i]*2)*6;//divide n?
 	}
 	solve_matrix(n-2,&d[1],f);
 }
@@ -199,28 +199,11 @@ int check_points(k_point * p,int amount, k_point what){
 	return -1;
 }
 
-int check_points(k_point * p,k_point * m, int amount, k_point what){
-	for (int i=0;i<amount;i++){
-		if (abs(p[i].x+m[i].x-what.x)<=8 && abs(p[i].y+m[i].y-what.y)<=8) return i;
-	}
-	return -1;
-}
-
-
 void draw_points(k_point * p,int amount,RenderWindow & window,sf::Color clr){
 	CircleShape shape(2,100);
 	shape.setFillColor(clr);
 	for (int i=0;i<amount;i++){
 		shape.setPosition(p[i].x-2,p[i].y-2);
-		window.draw(shape);
-	}
-}
-
-void draw_points(k_point * p,k_point *m,int amount,RenderWindow & window,sf::Color clr){
-	CircleShape shape(2,100);
-	shape.setFillColor(clr);
-	for (int i=0;i<amount;i++){
-		shape.setPosition(p[i].x+m[i].x-2,p[i].y+m[i].y-2);
 		window.draw(shape);
 	}
 }
@@ -260,26 +243,7 @@ void dnd(k_point * p,k_point *m,int amount, RenderWindow & window,Color curve){
 	window.display();
 }
 
-void dnd(k_point * p,k_point *m,int amount, RenderWindow & window,Color curve,Color line){
-	window.clear(Color::White);
-	draw_curve(p,m,amount,window,curve);
-	for (int i=0;i<amount;i++) draw_line(p[i],p[i]+m[i],window,line);
-	draw_points(p,m,amount,window,Color::Green);
-	window.display();
-}
-
 int main(int argc,char ** argv){
-	k_point a[5];
-	k_point b[5];
-	a[0]=500;
-	a[1]=300;
-	a[2]=600;
-	a[3]=200;
-	a[4]=450;
-	solve_matrix(5,b,a);
-	int k;
-	
-	for (k=0;k<5;k++) b[k].out();
 try{//можно добавить параметры
 	k_point p[100];
 	k_point m[100];
